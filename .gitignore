@@ -1,2 +1,6 @@
 .DS_Store
-node_modules
+
+# For local debugging with
+# Debugger for Chrome
+.vscode
+index.html
