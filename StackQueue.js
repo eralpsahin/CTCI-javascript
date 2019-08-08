@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 const print = console.log;
 
 // * STACKS AND QUEUES CHAPTER
