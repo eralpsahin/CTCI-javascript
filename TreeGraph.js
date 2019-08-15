@@ -138,25 +138,25 @@ GraphNode.prototype.setRight = function(val) {
 (function() {
   const BinaryHeap = function() {
     this.values = [];
+    this.size = 0;
   };
 
   BinaryHeap.prototype.peek = function() {
-    if (this.values) return this.values[0];
+    if (this.values.length !== 0) return this.values[0];
     return null;
   };
 
   BinaryHeap.prototype.insert = function(val) {
     this.values.push(val);
+    this.size += 1;
     const heapify = function() {
       let index = this.values.length;
       let parent = Math.floor(index / 2);
       while (parent > 0 && this.values[index - 1] < this.values[parent - 1]) {
         // Swap index with parent
-        print(index - 1, parent - 1);
         let temp = this.values[parent - 1];
         this.values[parent - 1] = this.values[index - 1];
         this.values[index - 1] = temp;
-        print(this.values);
 
         index = parent;
         parent = Math.floor(index / 2);
@@ -167,6 +167,7 @@ GraphNode.prototype.setRight = function(val) {
 
   BinaryHeap.prototype.extractMin = function() {
     if (this.values.length === 0) return null;
+    this.size -= 1;
     if (this.values.length === 1) {
       let temp = this.values[0];
       this.values = [];
@@ -201,6 +202,16 @@ GraphNode.prototype.setRight = function(val) {
 
     heapify.apply(this);
     return temp;
+  };
+
+  const heapSort = function(arr) {
+    const heap = new BinaryHeap();
+    for (let i = 0; i < arr.length; i++) {
+      heap.insert(arr[i]);
+    }
+    while (heap.peek() !== null) {
+      print(heap.extractMin());
+    }
   };
 });
 
@@ -239,7 +250,7 @@ const BSTNode = function(val, left = null, right = null) {
     if (this.val === val) return this;
     if (this.val > val && this.left) return this.left.find(val);
     else if (this.val < val && this.right) return this.right.find(val);
-    else return false;
+    else return null;
   };
 
   BSTNode.prototype.getHeight = function() {
@@ -325,7 +336,7 @@ const BSTNode = function(val, left = null, right = null) {
     }
     return null;
   };
-})();
+});
 
 /**
  * ! BinarySearch on sorted Array
@@ -527,4 +538,64 @@ const BSTNode = function(val, left = null, right = null) {
 
 /**
  * ! Question 4.7
+ */
+
+/**
+ * * Question 4.8 Lowest Common Ancestor
+ */
+
+(function() {
+  const LCA = function(root, x, y) {
+    if (!root || root.val == x || root.val == y) return root;
+
+    const left = LCA(root.left, x, y);
+    const right = LCA(root.right, x, y);
+    if (left === null) return right;
+    if (right === null) return left;
+    return root;
+  };
+});
+/**
+ * ! Question 4.8
+ */
+
+/**
+ * * Question 4.9 BST Sequences
+ */
+(function() {});
+/**
+ * ! Question 4.9
+ */
+
+/**
+ * * Question 4.10 Check Subtree
+ */
+(function() {
+  const checkSubtree = function(root1, root2) {
+    const createUniqSeq = function(root) {
+      let res = '';
+      const preOrderTraversal = function(root) {
+        if (!root) {
+          res += '.,';
+          return;
+        }
+        res += root.val + ',';
+        if (!root.left && !root.right) return;
+        if (!root.left) res += '.,';
+        else preOrderTraversal(root.left);
+        if (!root.right) res += '.,';
+        else preOrderTraversal(root.right);
+      };
+      preOrderTraversal(root);
+      return res;
+    };
+
+    const root1Seq = createUniqSeq(root1);
+    const root2Seq = createUniqSeq(root2);
+    if (root1Seq.indexOf(root2Seq) >= 0) return true;
+    return false;
+  };
+});
+/**
+ * ! Question 4.10
  */
